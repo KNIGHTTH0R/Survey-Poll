@@ -1,23 +1,23 @@
 <?php
-	
+
 	$query = mysql_query("SELECT * FROM `poll` ORDER BY `id` DESC LIMIT 1");
 	$rows = mysql_num_rows($query);
-	
+
 	if($rows > 0){
 		$poll = mysql_fetch_array($query);
 		$title = $poll['name'];
 	} else {
 		$title = 'No Poll Yet';
 	}
-	
+
 	$query = mysql_query("SELECT COUNT(`id`) as hits FROM `responses` GROUP BY `qid`");
 	while($row = mysql_fetch_array($query)){
 		$me[] = $row['hits'];
 	}
 	$max = max($me);
-	
+
 	$query = mysql_query("SELECT `questions`.`pid` FROM  `responses`, `questions` WHERE `responses`.`qid`=`questions`.`id` AND `responses`.`ip`='".$_SERVER['REMOTE_ADDR']."' AND pid='".$poll['id']."'");
-	
+
 	if(mysql_num_rows($query) > 0){
 	$total = mysql_query("SELECT `questions`.`pid` FROM  `responses`, `questions` WHERE `responses`.`qid`=`questions`.`id` AND pid='".$poll['id']."'");
 	$total = mysql_num_rows($total);
@@ -38,13 +38,13 @@
 				while($question = mysql_fetch_array($query)){
 					$responses = mysql_query("SELECT count(id) as total FROM `responses` WHERE qid='".$question['id']."'");
 					$responses = mysql_fetch_array($responses);
-					
+
 					if($total > 0 && $responses['total'] > 0){
 						$percentage = round(($responses['total'] / $max) * 100);
 					} else {
 						$percentage = 0;
 					}
-					
+
 					$percentage2 = 100 - $percentage;
 			?>
 				<tr>
@@ -108,7 +108,7 @@
 			}
 			?>
 			<tr>
-				<td valign="top" colspan="2" align="center" style="padding: 10px 0px 0px 0px;"><input type="submit" name="vote" value="Submit Vote" /><br /><a href="http://www.jotlab.com">http://www.jotlab.com</a></td>
+				<td valign="top" colspan="2" align="center" style="padding: 10px 0px 0px 0px;"><input type="submit" name="vote" value="Submit Vote" /><br /><a href="http://www.hep.louisville.edu">http://www.hep.louisville.edu</a></td>
 			</tr>
 		</table>
 		</form>
@@ -123,6 +123,6 @@
 ?>
 <table width="300" cellpadding="0" cellspacing="0" border="0" align="center">
 	<tr>
-		<td valign="top" align="right"><a href="http://www.jotlab.com/">http://www.jotlab.com</a></td>
+		<td valign="top" align="right"><a href="http://www.hep.louisville.edu">http://www.hep.louisville.edu</a></td>
 	</tr>
 </table>
