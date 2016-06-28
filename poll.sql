@@ -4,7 +4,7 @@
 --
 -- Host: localhost
 -- Generation Time: June 17, 2016 at 06:09 PM
--- Server version: 5.0.12
+-- Server version: 5.5.42
 -- PHP Version: 7.0.0
 --
 -- Database: `poll`
