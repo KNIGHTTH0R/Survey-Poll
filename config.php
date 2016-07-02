@@ -3,8 +3,8 @@
 //database settings
 
 $servername = "localhost";
-$username = "username";
-$password = "password";
+$username = "root";
+$password = "root";
 
 try {
     $conn = new PDO("mysql:host=$servername;dbname=myDB", $username, $password);
@@ -16,5 +16,5 @@ catch(PDOException $e)
     {
     echo "Connection failed: " . $e->getMessage();
     }
-    
+
 ?>
