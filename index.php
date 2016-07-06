@@ -1,5 +1,6 @@
 <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" />
 <?php
+	ini_set('display_errors', '1');
 	include('config.php');
 
 	if(isset($_POST['vote']) && isset($_POST['questions'])){

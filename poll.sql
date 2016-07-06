@@ -35,7 +35,7 @@ INSERT INTO `poll` VALUES (1, 'How Old Are You?');
 --
 
 CREATE TABLE `questions` (
-  `id` int(8) NOT NULL auto_increment,
+  `id` int(11) NOT NULL auto_increment,
   `pid` int(4) NOT NULL,
   `question` varchar(255) collate latin1_general_ci NOT NULL,
   PRIMARY KEY  (`id`)
@@ -60,8 +60,11 @@ INSERT INTO `questions` VALUES (7, 1, 'Too Old!');
 --
 
 CREATE TABLE `responses` (
-  `id` int(16) NOT NULL auto_increment,
-  `qid` int(8) NOT NULL,
+  `id` int(11) NOT NULL auto_increment,
+  `qid` int(11) NOT NULL,
+  `correct` int(1) NOT NULL,
+  `num_sel` int(11) NULL,
+  `answer` varchar(255) collate latin1_general_ci
   `ip` varchar(16) collate latin1_general_ci NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=5 ;

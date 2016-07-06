@@ -1,46 +1,66 @@
 <?php
 
-	$query = mysql_query("SELECT * FROM `poll` ORDER BY `id` DESC LIMIT 1");
-	$rows = mysql_num_rows($query);
+	echo 'test1';
+	try {
+		$query = $conn->query("SELECT * FROM `poll` ORDER BY `id` DESC LIMIT 1");
+	} catch(Exception $e) {
+		echo 'Exception thrown';
+		echo $e;
+	}
 
-	if($rows > 0){
-		$poll = mysql_fetch_array($query);
+	$rows = $query->fetchAll();
+
+	echo count($rows);
+
+	if(count($rows > 0)) {
+		$poll = $rows[0];
 		$title = $poll['name'];
 	} else {
 		$title = 'No Poll Yet';
 	}
 
-	$query = mysql_query("SELECT COUNT(`id`) as hits FROM `responses` GROUP BY `qid`");
-	while($row = mysql_fetch_array($query)){
-		$me[] = $row['hits'];
-	}
-	$max = max($me);
+	$query = $conn->query("SELECT * FROM `responses`");
 
-	$query = mysql_query("SELECT `questions`.`pid` FROM  `responses`, `questions` WHERE `responses`.`qid`=`questions`.`id` AND `responses`.`ip`='".$_SERVER['REMOTE_ADDR']."' AND pid='".$poll['id']."'");
+	$arr = $query->fetchAll();
 
-	if(mysql_num_rows($query) > 0){
-	$total = mysql_query("SELECT `questions`.`pid` FROM  `responses`, `questions` WHERE `responses`.`qid`=`questions`.`id` AND pid='".$poll['id']."'");
-	$total = mysql_num_rows($total);
+	$me = count($arr);
+
+	$query = $conn->query("SELECT `questions`.`pid` FROM  `responses`, `questions` WHERE `responses`.`qid`=`questions`.`id` AND `responses`.`ip`='".$_SERVER['REMOTE_ADDR']."' AND pid='".$poll['id']."'");
+	$questioncount = count($query->fetchAll());
+
+	echo 'count: ' . $questioncount;
+
+	if($questioncount > 0){
+	$query = $conn->query("SELECT `questions`.`pid` FROM  `responses`, `questions` WHERE `responses`.`qid`=`questions`.`id` AND pid='".$poll['id']."'");
+	$total = count($query->fetchAll());
 ?>
+
 <table width="300" cellpadding="0" cellspacing="0" border="0" class="maintable" align="center">
 	<tr>
 		<td valign="top" align="center" class="title"><?php echo $title; ?></td>
 	</tr>
 	<?php
-		$query = mysql_query("SELECT * FROM `questions` WHERE `pid`='".$poll['id']."' ORDER BY `question`");
-		$questions = mysql_num_rows($query);
-		if($questions > 0){
+		$query = $conn->query("SELECT * FROM `questions` WHERE `pid`='".$poll['id']."' ORDER BY `question`");
+		$questions = $query->fetchAll();
+		if(count($questions) > 0){
 	?>
 	<tr>
 		<td valign="top" style="padding: 5px;">
 		<table width="100%" cellpadding="0" cellspacing="0" border="0" class="question">
 			<?php
-				while($question = mysql_fetch_array($query)){
-					$responses = mysql_query("SELECT count(id) as total FROM `responses` WHERE qid='".$question['id']."'");
-					$responses = mysql_fetch_array($responses);
+				echo 'query count: ' . count($questions);
+				foreach($questions as $question){
+					$responses = $conn->query("SELECT count(id) as total FROM `responses` WHERE qid='".$question['id']."'");
+					$responses = $responses->fetchAll();
 
-					if($total > 0 && $responses['total'] > 0){
-						$percentage = round(($responses['total'] / $max) * 100);
+					$numselectquery = $conn->query("SELECT * FROM `responses` WHERE qid='" . $question['id'] . "' LIMIT 1");
+					$numselectres = $numselectquery->fetchAll();
+
+					$max = $numselectres[0];
+					$max = $max['num_sel'];
+
+					if($total > 0 && count($responses) > 0){
+						$percentage = round((count($responses) / $max) * 100);
 					} else {
 						$percentage = 0;
 					}
@@ -50,14 +70,13 @@
 				<tr>
 					<td valign="top" nowrap="nowrap"><?php echo $question['question']; ?></td>
 					<td valign="top" height="10" width="100%" style="padding: 0px 10px;">
-					<table width="100%" cellpadding="0" cellspacing="0" border="0">
-						<tr>
-							<td valign="top" width="<?php echo $percentage; ?>%" <?php if($percentage > 0){?>style="background: url('images/bar.jpg') repeat-x;"<?php } ?>><img src="images/dot.gif" width="1" height="19" /></td>
-							<td valign="top" width="<?php echo $percentage2; ?>%"></td>
-						</tr>
-					</table>
+
 					</td>
-					<td valign="top"><?php echo $responses['total']; ?></td>
+					<td valign="top">
+						<form action="submit.php">
+							<input type="text" name="question">
+						</form>
+					</td>
 				</tr>
 			<?php
 			}
@@ -80,9 +99,9 @@
 		<td valign="top" align="center" class="title"><?php echo $title; ?></td>
 	</tr>
 	<?php
-		$query = mysql_query("SELECT * FROM `questions` WHERE `pid`='".$poll['id']."' ORDER BY `question`");
-		$questions = mysql_num_rows($query);
-		if($questions > 0){
+		$query = $conn->query("SELECT * FROM `questions` WHERE `pid`='".$poll['id']."' ORDER BY `question`");
+		$questions = $query->fetchAll();
+		if(count($questions) > 0){
 	?>
 	<tr>
 		<td valign="top" style="padding: 5px;">
@@ -98,7 +117,7 @@
 			}
 		?>
 			<?php
-				while($question = mysql_fetch_array($query)){
+				foreach($query as $question){
 			?>
 				<tr>
 					<td valign="top" style="padding: 0px 10px 0px 0px;"><input type="radio" name="questions" value="<?php echo $question['id']; ?>" /></td>
