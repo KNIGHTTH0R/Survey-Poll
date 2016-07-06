@@ -45,13 +45,17 @@ CREATE TABLE `questions` (
 -- Dumping data for table `questions`
 --
 
-INSERT INTO `questions` VALUES (1, 1, '0 - 10');
-INSERT INTO `questions` VALUES (2, 1, '11 - 20');
-INSERT INTO `questions` VALUES (3, 1, '21 - 30');
-INSERT INTO `questions` VALUES (4, 1, '31 - 40');
-INSERT INTO `questions` VALUES (5, 1, '41 - 50');
-INSERT INTO `questions` VALUES (6, 1, '51 - 60');
-INSERT INTO `questions` VALUES (7, 1, 'Too Old!');
+INSERT INTO `poll_qst` (`qst_id`, `qst`, `opt1`, `opt2`, `opt3`, `opt4`) VALUES
+(1, 'Sample Question One', 'Option one of Question one', 'Option two of Question one', 'Option three of Question one', 'Option four of Question one'),
+(2, 'Sample question two', 'Option one of Question two', 'Option two of Question two', 'Option three of Question two', 'Option four of Question two'),
+(3, 'Sample Question Three', 'Option one of Question three', 'Option two of Question three', 'Option three of Question three', 'Option four of Question four'),
+(4, 'Sample question four', 'Option one of Question four', 'Option two of Question four', 'Option three of Question four', 'Option four of Question four'),
+(5, 'Sample Question Five', 'Option one of Question Five', 'Option two of Question Five', 'Option three of Question Five', 'Option four of Question Five'),
+(6, 'Sample question Six', 'Option one of Question Six', 'Option two of Question Six', 'Option three of Question Six', 'Option four of Question Six'),
+(7, 'Sample Question Seven', 'Option one of Question Seven', 'Option two of Question Seven', 'Option three of Question Seven', 'Option four of Question Seven'),
+(8, 'Sample question Eight', 'Option one of Question Eight', 'Option two of Question Eight', 'Option three of Question Eight', 'Option four of Question Eight'),
+(9, 'Sample Question Nine', 'Option one of Question Nine', 'Option two of Question Nine', 'Option three of Question Nine', 'Option four of Question Nine'),
+(10, 'Sample question Ten', 'Option one of Question Ten', 'Option two of Question Ten', 'Option three of Question Ten', 'Option four of Question Ten');
 
 -- --------------------------------------------------------
 
