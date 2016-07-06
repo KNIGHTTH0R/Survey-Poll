@@ -1,11 +1,11 @@
 html, body {
 	background: #FFFFFF;
 	font-family: Helvetica, Arial, Verdana, sans-serif, Courier;
-	color: #e00b0b;
+	color: #6600cc;
 }
 
 a {
-	color: #e00b0b;
+	color: #9966ff;
 	text-decoration: none;
 }
 
@@ -20,7 +20,7 @@ a {
 }
 
 .question {
-	background: #e00b0b;
+	background: #131339;
  	color: #FFFFFF;
  	padding: 10px;
 }
