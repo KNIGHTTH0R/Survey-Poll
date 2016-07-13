@@ -1,7 +1,7 @@
-<link rel="stylesheet" href="css/style.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="./css/style.css" type="text/css" media="screen" />
 <?php
 	ini_set('display_errors', '1');
-	include('config.php');
+	require('config.php');
 
 	if(isset($_POST['vote']) && isset($_POST['questions'])){
 		$query = mysql_query("SELECT `questions`.`pid` FROM  `responses`, `questions` WHERE `responses`.`qid`=`questions`.`id` AND `responses`.`ip`='".$_SERVER['REMOTE_ADDR']."' AND pid=(SELECT pid FROM `questions` WHERE id='".$_POST['questions']."' LIMIT 1)");

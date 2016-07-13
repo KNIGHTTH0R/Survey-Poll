@@ -25,7 +25,7 @@
 
 	$me = count($arr);
 
-	$query = $conn->query("SELECT `questions`.`pid` FROM  `responses`, `questions` WHERE `responses`.`qid`=`questions`.`id` AND `responses`.`ip`='".$_SERVER['REMOTE_ADDR']."' AND pid='".$poll['id']."'");
+	$query = $conn->query("SELECT pid FROM questions WHERE pid='".$poll['id']."'");
 	$questioncount = count($query->fetchAll());
 
 	echo 'count: ' . $questioncount;
@@ -53,10 +53,14 @@
 					$responses = $conn->query("SELECT count(id) as total FROM `responses` WHERE qid='".$question['id']."'");
 					$responses = $responses->fetchAll();
 
-					$numselectquery = $conn->query("SELECT * FROM `responses` WHERE qid='" . $question['id'] . "' LIMIT 1");
+					$numselectquery = $conn->query("SELECT * FROM responses WHERE qid='" . $question['id'] . "' LIMIT 1");
 					$numselectres = $numselectquery->fetchAll();
 
-					$max = $numselectres[0];
+					/*foreach($numselectres as $val) {
+						$max = $val;
+						echo 'test123';
+					}
+
 					$max = $max['num_sel'];
 
 					if($total > 0 && count($responses) > 0){
@@ -65,7 +69,7 @@
 						$percentage = 0;
 					}
 
-					$percentage2 = 100 - $percentage;
+					$percentage2 = 100 - $percentage;*/
 			?>
 				<tr>
 					<td valign="top" nowrap="nowrap"><?php echo $question['question']; ?></td>
@@ -127,7 +131,7 @@
 			}
 			?>
 			<tr>
-				<td valign="top" colspan="2" align="center" style="padding: 10px 0px 0px 0px;"><input type="submit" name="vote" value="Submit Vote" /><br /><a href="http://www.hep.louisville.edu">http://www.hep.louisville.edu</a></td>
+				<td valign="top" colspan="2" align="center" style="padding: 10px 0px 0px 0px;"><input type="submit" name="vote" value="Submit Vote" /><br /><a href="http://www.codelouisville.org/">http://www.codelouisville.org/</a></td>
 			</tr>
 		</table>
 		</form>
@@ -142,6 +146,6 @@
 ?>
 <table width="300" cellpadding="0" cellspacing="0" border="0" align="center">
 	<tr>
-		<td valign="top" align="right"><a href="http://www.hep.louisville.edu">http://www.hep.louisville.edu</a></td>
+		<td valign="top" align="right"><a href="http://www.codelouisville.org/">http://www.codelouisville.org/</a></td>
 	</tr>
 </table>
