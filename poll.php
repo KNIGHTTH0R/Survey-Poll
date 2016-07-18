@@ -47,8 +47,10 @@
 	<tr>
 		<td valign="top" style="padding: 5px;">
 		<table width="100%" cellpadding="0" cellspacing="0" border="0" class="question">
+			<tr>
+				<td valign="top">
+					<form action="submit.php">
 			<?php
-				echo 'query count: ' . count($questions);
 				foreach($questions as $question){
 					$responses = $conn->query("SELECT count(id) as total FROM `responses` WHERE qid='".$question['id']."'");
 					$responses = $responses->fetchAll();
@@ -71,22 +73,22 @@
 
 					$percentage2 = 100 - $percentage;*/
 			?>
-				<tr>
-					<td valign="top" nowrap="nowrap"><?php echo $question['question']; ?></td>
-					<td valign="top" height="10" width="100%" style="padding: 0px 10px;">
 
-					</td>
-					<td valign="top">
-						<form action="submit.php">
-							<input type="text" name="question">
-						</form>
-					</td>
-				</tr>
+							<?php echo $question['question']; ?>
+							<input type="text" name="question_<?php echo $question['id']; ?>">
+							<br>
+
+
 			<?php
 			}
 			?>
+						<br>
+						<input type="submit" value="Submit">
+					</form>
+				</td>
+			</tr>
 			<tr>
-				<td valign="top" colspan="3" align="center" style="padding: 10px 0px 0px 0px;">Total Votes: <?php echo $total; ?></td>
+				<td valign="top" colspan="3" align="center" style="padding: 10px 0px 0px 0px;">Total Votes: <?php echo ($total / count($questions)); ?></td>
 			</tr>
 		</table>
 		</td>

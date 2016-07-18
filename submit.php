@@ -50,47 +50,68 @@ function show_error() {
 
 require('config.php');
 
-echo '<h2>All Answers</h2>';
+$query = $conn->query("SELECT * FROM questions");
+$arr = $query->fetchAll();
 
-if (isset($_REQUEST['question'])) {
-	$question = $_REQUEST['question'];
+foreach($arr as $val) {
+	if (isset($_REQUEST['question_' . $val['id']])) {
+		if ($_REQUEST['question_' . $val['id']] == '') {
+			echo 'Error submitting: Please fill out all the answers and try again.';
+			exit;
+		}
+	}
+}
 
-	$query = $conn->prepare("INSERT INTO responses (qid, correct, num_sel, answer, ip) VALUES (0, 0, 0, ?, '127.0.0.1')");
-	$query->bindParam(1, $question);
-	$query->execute();
+echo '<h1>Answers</h1>';
 
-	$query = $conn->query("SELECT * FROM responses WHERE qid=0");
-	$arr = $query->fetchAll();
+foreach($arr as $val) {
+	if (isset($_REQUEST['question_' . $val['id']])) {
+		echo '<h2>' . $val['question'] . '</h2>';
 
-	$answers = array();
-	$answers_count = array();
+		$question = $_REQUEST['question_' . $val['id']];
 
-	foreach($arr as $key=>$val) {
-		$answeradded = false;
-		foreach($answers as $anskey=>$ans) {
-			if ($ans === $val['answer']) {
-				$answers_count[$anskey] += 1;
-				$answeradded = true;
+		echo $val['id'];
+
+		$query = $conn->prepare("INSERT INTO responses (qid, correct, num_sel, answer, ip) VALUES (?, 0, 0, ?, '127.0.0.1')");
+		$query->bindParam(1, $val['id']);
+		$query->bindParam(2, $question);
+		$query->execute();
+
+		$query = $conn->query("SELECT * FROM responses WHERE qid=" . $val['id']);
+		$arr = $query->fetchAll();
+
+		$answers = array();
+		$answers_count = array();
+
+		foreach($arr as $key=>$val) {
+			$answeradded = false;
+			foreach($answers as $anskey=>$ans) {
+				if ($ans === $val['answer']) {
+					$answers_count[$anskey] += 1;
+					$answeradded = true;
+				}
+			}
+
+			if (!$answeradded) {
+				array_push($answers, $val['answer']);
+				array_push($answers_count, 1);
 			}
 		}
 
-		if (!$answeradded) {
-			array_push($answers, $val['answer']);
-			array_push($answers_count, 1);
+		echo '<table><tr><td><b>Answer</b></td><td><b>Count</b></td></tr>';
+		foreach($answers as $key=>$val) {
+			echo '<tr><td>';
+			echo $val;
+			echo '</td><td>';
+			echo $answers_count[$key];
+			echo '</td></tr>';
 		}
-	}
+		echo '</table>';
 
-	echo '<table><tr><td><b>Answer</b></td><td><b>Count</b></td></tr>';
-	foreach($answers as $key=>$val) {
-		echo '<tr><td>';
-		echo $val;
-		echo '</td><td>';
-		echo $answers_count[$key];
-		echo '</td></tr>';
+		//var_dump($arr[0]['answer']);
+	} else {
+		echo 'Error submitting: Please fill out all the answers.';
 	}
-	echo '</table>';
-
-	//var_dump($arr[0]['answer']);
 }
 
 ?>
