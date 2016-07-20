@@ -35,7 +35,7 @@
 	$total = count($query->fetchAll());
 ?>
 
-<table width="300" cellpadding="0" cellspacing="0" border="0" class="maintable" align="center">
+<table width="80%" cellpadding="0" cellspacing="0" border="0" class="maintable" align="center">
 	<tr>
 		<td valign="top" align="center" class="title"><?php echo $title; ?></td>
 	</tr>

@@ -2,6 +2,9 @@ html, body {
 	background: #FFFFFF;
 	font-family: Helvetica, Arial, Verdana, sans-serif, Courier;
 	color: #6600cc;
+	background-image: url("http://giphy.com/gifs/XtkuVAmGUXqfe/html5"), url("http://gph.is/299Oqw7");
+	background-repeat: no-repeat;
+	background-size: contain;
 }
 
 a {
@@ -28,4 +31,9 @@ a {
 form {
 	padding: 0px;
 	margin: 0px;
+}
+
+body {
+  margin: 0;
+  background: #000;
 }

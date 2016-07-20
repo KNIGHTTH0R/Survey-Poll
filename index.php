@@ -15,4 +15,19 @@
 	}
 
 	include('poll.php');
+
+// Create a new image instance
+$im = imagecreatetruecolor(100, 100);
+
+// Make the background white
+imagefilledrectangle($im, 0, 0, 99, 99, 0x9966ff);
+
+// Draw a text string on the image
+imagestring($im, 3, 40, 20, 'GD Library', 0x6600cc);
+
+// Output the image to browser
+header('Content-Type: http://giphy.com/gifs/XtkuVAmGUXqfe/html5');
+
+imagegif($im);
+imagedestroy($im);
 ?>
